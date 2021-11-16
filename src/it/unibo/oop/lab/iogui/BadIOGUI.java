@@ -6,9 +6,13 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Random;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -24,7 +28,7 @@ import javax.swing.JPanel;
 public class BadIOGUI {
 
     private static final String TITLE = "A very simple GUI application";
-    private static final String PATH = System.getProperty("user.home")
+    private static final String PATH = System.getProperty("user.dir")
             + System.getProperty("file.separator")
             + BadIOGUI.class.getSimpleName() + ".txt";
     private static final int PROPORTION = 5;
@@ -37,10 +41,16 @@ public class BadIOGUI {
     public BadIOGUI() {
         final JPanel canvas = new JPanel();
         canvas.setLayout(new BorderLayout());
+        final JPanel newPanel = new JPanel();
+        newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.X_AXIS));
         final JButton write = new JButton("Write on file");
         canvas.add(write, BorderLayout.CENTER);
+        canvas.add(newPanel, BorderLayout.CENTER);
+        newPanel.add(write);
         frame.setContentPane(canvas);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        final JButton read = new JButton();
+        newPanel.add(read);
         /*
          * Handlers
          */
@@ -59,6 +69,16 @@ public class BadIOGUI {
                 } catch (FileNotFoundException e1) {
                     JOptionPane.showMessageDialog(frame, e1, "Error", JOptionPane.ERROR_MESSAGE);
                     e1.printStackTrace();
+                }
+            }
+        });
+        read.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                try {
+                    System.out.println(Files.readAllLines(Path.of(PATH)));
+                } catch (IOException e1) {
+                    JOptionPane.showMessageDialog(frame, e1, "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -83,8 +103,9 @@ public class BadIOGUI {
          * on screen. Results may vary, but it is generally the best choice.
          */
         frame.setLocationByPlatform(true);
+        frame.pack();
         /*
-         * OK, ready to pull the frame onscreen
+         * OK, ready to pull the frame on-screen
          */
         frame.setVisible(true);
     }
