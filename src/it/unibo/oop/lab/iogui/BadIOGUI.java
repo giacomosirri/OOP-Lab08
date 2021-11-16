@@ -49,7 +49,7 @@ public class BadIOGUI {
         newPanel.add(write);
         frame.setContentPane(canvas);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        final JButton read = new JButton();
+        final JButton read = new JButton("Read");
         newPanel.add(read);
         /*
          * Handlers
