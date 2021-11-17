@@ -15,35 +15,15 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 /**
- * A very simple program using a graphical interface.
  * 
+ * A very simple program using a graphical interface.
  */
 public final class SimpleGUI {
 
     private final JFrame frame = new JFrame("My first Java graphical interface");
 
-    /*
-     * Once the Controller is done, implement this class in such a way that:
-     * 
-     * 1) It has a main method that starts the graphical application
-     * 
-     * 2) In its constructor, sets up the whole view
-     * 
-     * 3) The graphical interface consists of a JTextArea with a button "Save" right
-     * below (see "ex02.png" for the expected result). SUGGESTION: Use a JPanel with
-     * BorderLayout
-     * 
-     * 4) By default, if the graphical interface is closed the program must exit
-     * (call setDefaultCloseOperation)
-     * 
-     * 5) The program asks the controller to save the file if the button "Save" gets
-     * pressed.
-     * 
-     * Use "ex02.png" (in the res directory) to verify the expected aspect.
-     */
-
     /**
-     * builds a new {@link SimpleGUI}.
+     * Builds a new {@link SimpleGUI}.
      */
     public SimpleGUI() {
         /*
@@ -64,16 +44,24 @@ public final class SimpleGUI {
          * Instead of appearing at (0,0), upper left corner of the screen, this
          * flag makes the OS window manager take care of the default positioning
          * on screen. Results may vary, but it is generally the best choice.
+         * This application must also be terminated when the interface is closed. 
          */
         this.frame.setLocationByPlatform(true);
         this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        /*
+         * Add a panel with a JTextField and a JButton
+         */
         final JPanel pane = new JPanel(new BorderLayout());
         final JTextField text = new JTextField();
         pane.add(text, BorderLayout.CENTER);
         final JButton saveButton = new JButton("Save");
         pane.add(saveButton, BorderLayout.SOUTH);
+        this.frame.setContentPane(pane);
+        /*
+         * Initialize a controller and use it so that pressing the "Save" button
+         * allows the content of the text area to be stored in the current file. 
+         */
         final Controller ctrl = new Controller();
-        System.out.println(ctrl.getFile());
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
@@ -84,10 +72,11 @@ public final class SimpleGUI {
                 }
             }
         });
-        this.frame.setContentPane(pane);
-        this.frame.setLocationByPlatform(true);
     }
 
+    /**
+     * Allows the interface to be seen on screen.
+     */
     public void display() {
         this.frame.setVisible(true);
     }
