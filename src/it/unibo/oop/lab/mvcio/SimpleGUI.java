@@ -71,7 +71,7 @@ public final class SimpleGUI {
         final JTextField text = new JTextField();
         pane.add(text, BorderLayout.CENTER);
         final JButton saveButton = new JButton("Save");
-        pane.add(new JButton("Save"), BorderLayout.SOUTH);
+        pane.add(saveButton, BorderLayout.SOUTH);
         final Controller ctrl = new Controller();
         System.out.println(ctrl.getFile());
         saveButton.addActionListener(new ActionListener() {
