@@ -2,6 +2,7 @@ package it.unibo.oop.lab.mvc;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class SimpleController implements Controller {
 
@@ -11,14 +12,9 @@ public class SimpleController implements Controller {
         this.history = new ArrayList<>();
     }
 
-    public SimpleController(final String text) {
-        this.history = new ArrayList<>();
-        this.history.add(text);
-    }
-
     @Override
     public void setTextToPrint(final String text) {
-        this.history.add(this.history.size(), text);
+        this.history.add(this.history.size(), Objects.requireNonNull(text, "Text cannot be empty"));
     }
 
     @Override
@@ -33,6 +29,11 @@ public class SimpleController implements Controller {
 
     @Override
     public void printString() {
-        System.out.println(this.getTextToPrint());
+        try {
+            final String nextToPrint = this.getTextToPrint();
+            System.out.println(nextToPrint);
+        } catch (IndexOutOfBoundsException e) {
+            throw new IllegalStateException("Text cannot be empty");
+        }
     }
 }

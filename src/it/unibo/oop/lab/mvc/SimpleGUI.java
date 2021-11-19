@@ -9,10 +9,12 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
+import java.awt.GridLayout;
 
 /**
  * 
@@ -20,7 +22,7 @@ import javax.swing.WindowConstants;
  */
 public final class SimpleGUI {
 
-    private final JFrame frame = new JFrame();
+    private final JFrame frame = new JFrame("Show history GUI");
 
     /**
      * builds a new {@link SimpleGUI}.
@@ -33,20 +35,26 @@ public final class SimpleGUI {
         frame.setLocationByPlatform(true);
         this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         final JPanel mainPanel = new JPanel(new BorderLayout());
+        final JPanel buttonsPanel = new JPanel(new GridLayout(1, 2));
         final JTextField text = new JTextField();
         mainPanel.add(text, BorderLayout.NORTH);
         final JTextArea printHistory = new JTextArea();
         mainPanel.add(printHistory, BorderLayout.CENTER);
         final JButton printButton = new JButton("Print");
-        mainPanel.add(printButton, BorderLayout.PAGE_END);
+        buttonsPanel.add(printButton);
         final JButton showHistory = new JButton("Show history");
-        mainPanel.add(showHistory, BorderLayout.WEST);
+        buttonsPanel.add(showHistory);
+        mainPanel.add(buttonsPanel, BorderLayout.SOUTH);
         final Controller ctrl = new SimpleController();
         printButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                ctrl.setTextToPrint(text.getText());
-                ctrl.printString();
+                try {
+                    ctrl.setTextToPrint(text.getText());
+                    ctrl.printString();
+                } catch (NullPointerException | IllegalStateException exc) {
+                    JOptionPane.showMessageDialog(SimpleGUI.this.frame, exc.getMessage(), "An error has occurred", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
         showHistory.addActionListener(new ActionListener() {

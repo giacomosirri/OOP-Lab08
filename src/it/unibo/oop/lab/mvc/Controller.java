@@ -7,32 +7,34 @@ import java.util.List;
  */
 public interface Controller {
 
-    /*
-     * This interface must model a simple controller responsible of I/O access. It
-     * considers only the standard output, and it is able to print on it.
-     * 
-     * Write the interface and implement it in a class in such a way that it
-     * includes:
-     * 
-     * 1) A method for setting the next string to print. Null values are not
-     * acceptable, and an exception should be produced
-     * 
-     * 2) A method for getting the next string to print
-     * 
-     * 3) A method for getting the history of the printed strings (in form of a List
-     * of Strings)
-     * 
-     * 4) A method that prints the current string. If the current string is unset,
-     * an IllegalStateException should be thrown
-     * 
+    /**
+     * Sets the next string to print.
+     *
+     * @param text
+     *          the text that must be printed next
+     * @throws an IllegalArgumentException if the text is null
      */
+    void setTextToPrint(String text);
 
-    public void setTextToPrint(final String text);
+    /**
+     * Gets the next string to print.
+     * 
+     * @return the text that is the next one 
+     */
+    String getTextToPrint();
 
-    public String getTextToPrint();
+    /**
+     * Gets the history of the strings already printed.
+     * 
+     * @return the history of the printed strings
+     */
+    List<String> getHistory();
 
-    public List<String> getHistory();
-
-    public void printString();
+    /**
+     * Prints the current string. 
+     * 
+     * @throws an IllegalStateException if the current string is unset
+     */
+    void printString();
 
 }
