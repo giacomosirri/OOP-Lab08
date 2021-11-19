@@ -6,7 +6,8 @@ package it.unibo.oop.lab.advanced;
 public interface DrawNumberView {
 
     /**
-     * @param observer the controller to attach
+     * @param observer 
+     *                  the controller to attach
      */
     void setObserver(DrawNumberViewObserver observer);
 
@@ -29,5 +30,13 @@ public interface DrawNumberView {
      * Tells the user that the match is lost.
      */
     void limitsReached();
+
+    /**
+     * Displays an error when it occurs.
+     * 
+     * @param message
+     *                  the message that must be shown via UI
+     */
+    void displayError(String message);
 
 }
