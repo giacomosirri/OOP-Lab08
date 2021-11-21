@@ -1,12 +1,18 @@
 package it.unibo.oop.lab.advanced;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.util.StringTokenizer;
+
 /**
  */
 public final class DrawNumberApp implements DrawNumberViewObserver {
 
-    private static final int MIN = 0;
-    private static final int MAX = 100;
-    private static final int ATTEMPTS = 10;
+    private static final int NUMBER_OF_CONSTANTS = 3;
     private final DrawNumber model;
     private final DrawNumberView view;
 
@@ -14,10 +20,28 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
      * 
      */
     public DrawNumberApp() {
-        this.model = new DrawNumberImpl(MIN, MAX, ATTEMPTS);
+        this.model = new DrawNumberImpl(initializeConstants()[0], initializeConstants()[1], initializeConstants()[2]);
         this.view = new DrawNumberViewImpl();
         this.view.setObserver(this);
         this.view.start();
+    }
+
+    private int[] initializeConstants() {
+        try (BufferedReader bf = new BufferedReader(new FileReader("config.yml"))) {
+            int[] allConstants = new int[NUMBER_OF_CONSTANTS];
+            for (int i = 0; i < NUMBER_OF_CONSTANTS; i++) {
+                final String thisLine = bf.readLine();
+                if (thisLine != null) {
+                    allConstants[i] = Integer.parseInt(thisLine.split(":")[1]);
+                }
+            }
+            return allConstants;
+        } catch (FileNotFoundException e) {
+            view.displayError("Cannot load configuration file");
+        } catch (NumberFormatException | IOException e) {
+            view.displayError("An error has occurred while reading the configuration file");
+        }
+        return new int[0];
     }
 
     @Override
