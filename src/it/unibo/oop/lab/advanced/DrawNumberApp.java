@@ -4,9 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.util.StringTokenizer;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  */
@@ -14,16 +13,18 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
 
     private static final int NUMBER_OF_CONSTANTS = 3;
     private final DrawNumber model;
-    private final DrawNumberView view;
+    private final Set<DrawNumberView> views = new HashSet<>();
 
     /**
      * 
      */
     public DrawNumberApp() {
         this.model = new DrawNumberImpl(initializeConstants()[0], initializeConstants()[1], initializeConstants()[2]);
-        this.view = new DrawNumberViewImpl();
-        this.view.setObserver(this);
-        this.view.start();
+        this.views.add(new DrawNumberViewImpl());
+        for (final DrawNumberView thisView : this.views) {
+            thisView.setObserver(this);
+            thisView.start();
+        }
     }
 
     private int[] initializeConstants() {
@@ -37,9 +38,13 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
             }
             return allConstants;
         } catch (FileNotFoundException e) {
-            view.displayError("Cannot load configuration file");
+            for (final DrawNumberView thisView : this.views) {
+                thisView.displayError("Cannot load configuration file");
+            }
         } catch (NumberFormatException | IOException e) {
-            view.displayError("An error has occurred while reading the configuration file");
+            for (final DrawNumberView thisView : this.views) {
+                thisView.displayError("An error has occurred while reading the configuration file");
+            }
         }
         return new int[0];
     }
@@ -48,11 +53,17 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
     public void newAttempt(final int n) {
         try {
             final DrawResult result = model.attempt(n);
-            this.view.result(result);
+            for (final DrawNumberView thisView : this.views) {
+                thisView.result(result);
+            }
         } catch (IllegalArgumentException e) {
-            this.view.numberIncorrect();
+            for (final DrawNumberView thisView : this.views) {
+                thisView.numberIncorrect();
+            }
         } catch (AttemptsLimitReachedException e) {
-            view.limitsReached();
+            for (final DrawNumberView thisView : this.views) {
+                thisView.limitsReached();
+            }
         }
     }
 

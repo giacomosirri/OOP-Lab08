@@ -112,15 +112,15 @@ public final class DrawNumberViewImpl implements DrawNumberView {
 
     @Override
     public void limitsReached() {
-        JOptionPane.showMessageDialog(frame, "You lost" + NEW_GAME, "Lost", JOptionPane.WARNING_MESSAGE);
+        JOptionPane.showMessageDialog(this.frame, "You lost" + NEW_GAME, "Lost", JOptionPane.WARNING_MESSAGE);
     }
 
     private void plainMessage(final String msg) {
-        JOptionPane.showMessageDialog(frame, msg, "Result", JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(this.frame, msg, "Result", JOptionPane.PLAIN_MESSAGE);
     }
 
     @Override
-    public void displayError(final String message) {
-        JOptionPane.showMessageDialog(this.frame, message, "Error!", JOptionPane.ERROR_MESSAGE);
+    public void displayError(final String msg) {
+        JOptionPane.showMessageDialog(this.frame, msg, "Error!", JOptionPane.ERROR_MESSAGE);
     }
 }
