@@ -3,7 +3,8 @@ package it.unibo.oop.lab.advanced;
 import java.util.Random;
 
 /**
- *
+ * Basic implementation of {@link DrawNumber}.
+ * 
  */
 public final class DrawNumberImpl implements DrawNumber {
 

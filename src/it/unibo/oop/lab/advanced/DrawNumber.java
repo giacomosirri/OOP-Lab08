@@ -7,7 +7,7 @@ package it.unibo.oop.lab.advanced;
 public interface DrawNumber {
 
     /**
-     * resets the game.
+     * Resets the game.
      */
     void reset();
 

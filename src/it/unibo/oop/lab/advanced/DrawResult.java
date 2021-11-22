@@ -2,6 +2,7 @@ package it.unibo.oop.lab.advanced;
 
 /**
  * Possible outcomes of a guess.
+ * 
  */
 public enum DrawResult {
 

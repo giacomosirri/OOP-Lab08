@@ -1,5 +1,9 @@
 package it.unibo.oop.lab.advanced;
 
+/**
+ * A dummy view that prints on standard output.
+ *
+ */
 public final class StandardOutputView implements DrawNumberView {
 
     private DrawNumberViewObserver observer;

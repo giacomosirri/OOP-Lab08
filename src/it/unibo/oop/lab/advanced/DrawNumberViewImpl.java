@@ -26,7 +26,7 @@ public final class DrawNumberViewImpl implements DrawNumberView {
     private final JFrame frame = new JFrame(FRAME_NAME);
 
     /**
-     * 
+     * Sets up a graphical view.
      */
     public DrawNumberViewImpl() {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

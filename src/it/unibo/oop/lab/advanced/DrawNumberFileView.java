@@ -1,36 +1,38 @@
 package it.unibo.oop.lab.advanced;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.PrintStream;
-import java.nio.file.Files;
 
+/**
+ * Implementation of {@link DrawNumberView} which writes the match log on file.
+ *
+ */
 public final class DrawNumberFileView implements DrawNumberView {
 
     private static final String DEFAULT_FILE = System.getProperty("user.dir") + "output.txt";
     private static final String NEW_GAME = ": a new game starts!";
 
+    private File outputFile; 
     private PrintStream outputStream;
     private DrawNumberViewObserver observer;
 
+    /**
+     * Starts the stream on the default file.
+     */
     public DrawNumberFileView() {
-        try {
-            this.outputStream = new PrintStream(DEFAULT_FILE);
-        } catch (FileNotFoundException e) {
-            this.outputStream = null;
-        }
+        this.start();
     }
 
+    /**
+     * Starts the stream on the specified path name.
+     * 
+     * @param pathName
+     *                  the path name of the file used as stream
+     */
     public DrawNumberFileView(final String pathName) {
-        try {
-            this.outputStream = new PrintStream(pathName);
-        } catch (FileNotFoundException e) {
-            this.outputStream = null;
-        }
+        this.outputFile = new File(pathName);
+        this.start();
     }
 
     @Override
@@ -38,23 +40,49 @@ public final class DrawNumberFileView implements DrawNumberView {
         this.observer = observer;
     }
 
-    public void setFile(final File file) throws FileNotFoundException {
-        this.outputStream = new PrintStream(file);
+    /**
+     * Sets a file as the current stream.
+     * 
+     * @param file
+     *          the file to be used as stream, in form of a {@link java.io.File}
+     */
+    public void setFile(final File file) {
+        this.outputFile = file;
         this.start();
     }
 
-    public void setFile(final String pathName) throws FileNotFoundException {
-        this.outputStream = new PrintStream(pathName);
-        this.start();
+    /**
+     * Sets a file as the current stream.
+     * 
+     * @param pathName
+     *          the file to be used as stream, in form of a {@link java.lang.String}
+     */
+    public void setFile(final String pathName) {
+        this.setFile(new File(pathName));
     }
 
     @Override
     public void start() {
+        try {
+            this.outputStream = new PrintStream(this.outputFile);
+        } catch (FileNotFoundException e) {
+            try {
+                this.outputStream = new PrintStream(DEFAULT_FILE);
+            } catch (FileNotFoundException e1) {
+                this.outputStream = null;
+            }
+        } 
+    }
+
+    private boolean isStreamSet() {
+        return this.outputStream != null;
     }
 
     @Override
     public void numberIncorrect() {
-        this.outputStream.print("\nIncorrect Number.. try again");
+        if (isStreamSet()) {
+            this.outputStream.print("\nIncorrect Number.. try again");
+        }
     }
 
     @Override
@@ -75,16 +103,22 @@ public final class DrawNumberFileView implements DrawNumberView {
 
     @Override
     public void limitsReached() {
-        this.outputStream.print("\nYou lost" + NEW_GAME);
+        if (isStreamSet()) {
+            this.outputStream.print("\nYou lost" + NEW_GAME);
+        }
     }
 
     private void printResult(final String message) {
-        this.outputStream.print("\n" + message);
+        if (isStreamSet()) {
+            this.outputStream.print("\n" + message);
+        }
     }
 
     @Override
     public void displayError(final String message) {
-        this.outputStream.print("\n" + message);
+        if (isStreamSet()) {
+            this.outputStream.print("\n" + message);
+        }
     }
 
 }

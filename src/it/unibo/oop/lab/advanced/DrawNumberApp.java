@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * Implements a basic controller for the draw number game.
  * 
  */
 public final class DrawNumberApp implements DrawNumberViewObserver {
@@ -15,7 +16,13 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
     private final Set<DrawNumberView> views;
 
     /**
+     * Sets up the controller for the draw number game 
+     * using the configuration file and the views specified as parameters.
      * 
+     * @param configFile
+     *                  the configuration file
+     * @param views
+     *                  a vararg containing one or multiple views
      */
     public DrawNumberApp(final String configFile, final DrawNumberView...views) {
         this.views = new HashSet<>(List.of(views));

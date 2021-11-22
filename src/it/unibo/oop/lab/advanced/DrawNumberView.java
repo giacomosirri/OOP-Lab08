@@ -1,7 +1,8 @@
 package it.unibo.oop.lab.advanced;
 
 /**
- *
+ * Models a view for the draw number game.
+ * 
  */
 public interface DrawNumberView {
 
