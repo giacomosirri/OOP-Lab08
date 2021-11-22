@@ -71,6 +71,7 @@ public final class DrawNumberViewImpl implements DrawNumberView {
         });
         frame.pack();
         frame.setLocationByPlatform(true);
+        frame.setResizable(true);
     }
 
     @Override

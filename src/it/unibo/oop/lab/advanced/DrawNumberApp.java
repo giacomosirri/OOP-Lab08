@@ -1,54 +1,39 @@
 package it.unibo.oop.lab.advanced;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
+ * 
  */
 public final class DrawNumberApp implements DrawNumberViewObserver {
 
-    private static final int NUMBER_OF_CONSTANTS = 3;
-    private final DrawNumber model;
-    private final Set<DrawNumberView> views = new HashSet<>();
+    private static final String DEFAULT_FILE = "view.txt";
+    private DrawNumber model;
+    private final Set<DrawNumberView> views;
 
     /**
      * 
      */
-    public DrawNumberApp() {
-        this.model = new DrawNumberImpl(initializeConstants()[0], initializeConstants()[1], initializeConstants()[2]);
-        this.views.add(new DrawNumberViewImpl());
-        this.views.add(new DrawNumberFileView(System.getProperty("user.dir" + "view.txt")));
-        this.views.add(new StandardOutputView());
+    public DrawNumberApp(final String configFile, final DrawNumberView...views) {
+        this.views = new HashSet<>(List.of(views));
         for (final DrawNumberView thisView : this.views) {
             thisView.setObserver(this);
             thisView.start();
         }
-    }
-
-    private int[] initializeConstants() {
-        try (BufferedReader bf = new BufferedReader(new FileReader("config.yml"))) {
-            int[] allConstants = new int[NUMBER_OF_CONSTANTS];
-            for (int i = 0; i < NUMBER_OF_CONSTANTS; i++) {
-                final String thisLine = bf.readLine();
-                if (thisLine != null) {
-                    allConstants[i] = Integer.parseInt(thisLine.split(":")[1]);
-                }
-            }
-            return allConstants;
-        } catch (FileNotFoundException e) {
+        final Configuration config = new Configuration();
+        try {
+            final var configuration = config.getConstants(configFile);
+            this.model = new DrawNumberImpl(configuration.get("minimum"), 
+                    configuration.get("maximum"), configuration.get("attempts"));
+        } catch (IOException e) {
             for (final DrawNumberView thisView : this.views) {
-                thisView.displayError("Cannot load configuration file");
+                thisView.displayError("Cannot load or read configuration file");
             }
-        } catch (NumberFormatException | IOException e) {
-            for (final DrawNumberView thisView : this.views) {
-                thisView.displayError("An error has occurred while reading the configuration file");
-            }
+            this.model = new DrawNumberImpl(0, 0, 0);
         }
-        return new int[0];
     }
 
     @Override
@@ -84,7 +69,11 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
      *            ignored
      */
     public static void main(final String... args) {
-        new DrawNumberApp();
+        new DrawNumberApp("config.yml", 
+                new DrawNumberViewImpl(), 
+                new DrawNumberViewImpl(), 
+                new DrawNumberFileView(System.getProperty("user.dir") + DEFAULT_FILE), 
+                new StandardOutputView());
     }
 
 }

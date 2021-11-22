@@ -1,7 +1,11 @@
 package it.unibo.oop.lab.advanced;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.nio.file.Files;
 
@@ -15,7 +19,7 @@ public final class DrawNumberFileView implements DrawNumberView {
 
     public DrawNumberFileView() {
         try {
-            this.outputStream = new PrintStream(new File(DEFAULT_FILE));
+            this.outputStream = new PrintStream(DEFAULT_FILE);
         } catch (FileNotFoundException e) {
             this.outputStream = null;
         }
@@ -23,7 +27,7 @@ public final class DrawNumberFileView implements DrawNumberView {
 
     public DrawNumberFileView(final String pathName) {
         try {
-            this.outputStream = new PrintStream(new File(pathName));
+            this.outputStream = new PrintStream(pathName);
         } catch (FileNotFoundException e) {
             this.outputStream = null;
         }
@@ -40,7 +44,8 @@ public final class DrawNumberFileView implements DrawNumberView {
     }
 
     public void setFile(final String pathName) throws FileNotFoundException {
-        this.setFile(new File(pathName));
+        this.outputStream = new PrintStream(pathName);
+        this.start();
     }
 
     @Override
