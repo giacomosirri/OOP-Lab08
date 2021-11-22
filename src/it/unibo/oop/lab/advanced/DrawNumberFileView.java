@@ -3,32 +3,53 @@ package it.unibo.oop.lab.advanced;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import java.nio.file.Files;
 
-public class DrawNumberFileView implements DrawNumberView {
+public final class DrawNumberFileView implements DrawNumberView {
 
-    private static final String FILE_NAME = "";
+    private static final String DEFAULT_FILE = System.getProperty("user.dir") + "output.txt";
     private static final String NEW_GAME = ": a new game starts!";
 
-    private PrintStream outputFile;
+    private PrintStream outputStream;
     private DrawNumberViewObserver observer;
+
+    public DrawNumberFileView() {
+        try {
+            this.outputStream = new PrintStream(new File(DEFAULT_FILE));
+        } catch (FileNotFoundException e) {
+            this.outputStream = null;
+        }
+    }
+
+    public DrawNumberFileView(final String pathName) {
+        try {
+            this.outputStream = new PrintStream(new File(pathName));
+        } catch (FileNotFoundException e) {
+            this.outputStream = null;
+        }
+    }
 
     @Override
     public void setObserver(final DrawNumberViewObserver observer) {
         this.observer = observer;
     }
 
+    public void setFile(final File file) throws FileNotFoundException {
+        this.outputStream = new PrintStream(file);
+        this.start();
+    }
+
+    public void setFile(final String pathName) throws FileNotFoundException {
+        this.setFile(new File(pathName));
+    }
+
     @Override
     public void start() {
-        try {
-            this.outputFile = new PrintStream(new File(FILE_NAME));
-        } catch (FileNotFoundException e) {
-            this.displayError("File not found");
-        }
     }
 
     @Override
     public void numberIncorrect() {
-        this.outputFile.print("\nIncorrect Number.. try again");
+        this.outputStream.print("\nIncorrect Number.. try again");
     }
 
     @Override
@@ -49,16 +70,16 @@ public class DrawNumberFileView implements DrawNumberView {
 
     @Override
     public void limitsReached() {
-        this.outputFile.print("\nYou lost" + NEW_GAME);
+        this.outputStream.print("\nYou lost" + NEW_GAME);
     }
 
     private void printResult(final String message) {
-        this.outputFile.print("\n" + message);
+        this.outputStream.print("\n" + message);
     }
 
     @Override
     public void displayError(final String message) {
-        this.outputFile.print("\n" + message);
+        this.outputStream.print("\n" + message);
     }
 
 }

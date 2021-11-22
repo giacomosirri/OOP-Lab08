@@ -21,6 +21,8 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
     public DrawNumberApp() {
         this.model = new DrawNumberImpl(initializeConstants()[0], initializeConstants()[1], initializeConstants()[2]);
         this.views.add(new DrawNumberViewImpl());
+        this.views.add(new DrawNumberFileView(System.getProperty("user.dir" + "view.txt")));
+        this.views.add(new StandardOutputView());
         for (final DrawNumberView thisView : this.views) {
             thisView.setObserver(this);
             thisView.start();
