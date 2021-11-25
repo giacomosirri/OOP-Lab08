@@ -7,12 +7,12 @@ import java.nio.charset.Charset;
 import org.apache.commons.io.FileUtils;
 
 /**
- * 
  * This class models a controller that can store String data on the file set as the current. 
+ * 
  */
 public class Controller {
 
-    private static final String DIR = System.getProperty("user.home");
+    private static final String DIR = System.getProperty("user.dir");
     private static final String SEPARATOR = System.getProperty("file.separator");
     private static final String DEFAULT_FILE = "output.txt";
     private static final String FILE_NAME = DIR + SEPARATOR + DEFAULT_FILE;

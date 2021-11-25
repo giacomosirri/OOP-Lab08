@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,8 +16,8 @@ import javax.swing.WindowConstants;
 import java.awt.GridLayout;
 
 /**
- * 
  * A very simple program using a graphical interface.
+ * 
  */
 public final class SimpleGUI {
 
@@ -52,17 +51,18 @@ public final class SimpleGUI {
                 try {
                     ctrl.setTextToPrint(text.getText());
                     ctrl.printString();
-                } catch (NullPointerException | IllegalStateException exc) {
-                    JOptionPane.showMessageDialog(SimpleGUI.this.frame, exc.getMessage(), "An error has occurred", JOptionPane.ERROR_MESSAGE);
+                } catch (IllegalStateException exc) {
+                    JOptionPane.showMessageDialog(SimpleGUI.this.frame, 
+                            exc.getMessage(), "An error has occurred", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
         showHistory.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                final List<String> history = ctrl.getHistory();
+                // refresh
                 printHistory.setText("");
-                for (final String thisString : history) {
+                for (final String thisString : ctrl.getHistory()) {
                     printHistory.append(thisString + "\n");
                 }
             }

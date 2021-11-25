@@ -13,18 +13,19 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 import it.unibo.oop.lab.mvcio.Controller;
 
 /**
- * 
  * A very simple program using a graphical interface.
+ * 
  */
 public final class SimpleGUIWithFileChooser {
 
-    private final JFrame frame = new JFrame("My second Java graphical interface");
+    private final JFrame frame = new JFrame("Another Java graphical interface");
 
     /**
      * Builds a new {@link SimpleGUI}.
@@ -56,7 +57,7 @@ public final class SimpleGUIWithFileChooser {
          * Add a panel with a JTextField and a JButton
          */
         final JPanel mainPanel = new JPanel(new BorderLayout());
-        final JTextField text = new JTextField();
+        final JTextArea text = new JTextArea();
         mainPanel.add(text, BorderLayout.CENTER);
         final JButton saveButton = new JButton("Save");
         mainPanel.add(saveButton, BorderLayout.SOUTH);

@@ -93,7 +93,7 @@ public final class DrawNumberFileView implements DrawNumberView {
             this.printResult(res.getDescription());
             return;
         case YOU_WON:
-            this.printResult(res.getDescription());
+            this.printResult(res.getDescription() + NEW_GAME);
             break;
         default:
             throw new IllegalStateException("Unexpected result: " + res);

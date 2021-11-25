@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 /**
- * This class is a simple application that writes a random number on a file.
+ * This class is a simple application that writes a random number on standard output.
  * 
  * This application does not exploit the model-view-controller pattern, and as
  * such is just to be used to learn the basics, not as a template for your
@@ -46,13 +46,12 @@ public class MiniGUI {
         canvas.add(result, BorderLayout.NORTH);
         frame.setContentPane(canvas);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        /*
-         * Handlers
-         */
         write.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                result.setText(String.valueOf(rng.nextInt()));
+                final int value = rng.nextInt();
+                result.setText(String.valueOf(value));
+                System.out.println(value);
             }
         });
     }
@@ -87,7 +86,8 @@ public class MiniGUI {
     }
 
     /**
-     * @param args ignored
+     * @param args 
+     *          ignored
      */
     public static void main(final String... args) {
        new MiniGUI().display();

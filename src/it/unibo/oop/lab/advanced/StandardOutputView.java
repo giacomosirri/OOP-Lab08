@@ -31,7 +31,7 @@ public final class StandardOutputView implements DrawNumberView {
             System.out.println(res.getDescription());
             return;
         case YOU_WON:
-            System.out.println(res.getDescription());
+            System.out.println(res.getDescription() + NEW_GAME);
             break;
         default:
             throw new IllegalStateException("Unexpected result: " + res);

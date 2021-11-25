@@ -78,7 +78,6 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
     public static void main(final String... args) {
         new DrawNumberApp("config.yml", 
                 new DrawNumberViewImpl(), 
-                new DrawNumberViewImpl(), 
                 new DrawNumberFileView(System.getProperty("user.dir") + DEFAULT_FILE), 
                 new StandardOutputView());
     }

@@ -11,16 +11,17 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 /**
- * 
  * A very simple program using a graphical interface.
+ * 
  */
 public final class SimpleGUI {
 
-    private final JFrame frame = new JFrame("My first Java graphical interface");
+    private final JFrame frame = new JFrame("Another Java graphical interface");
 
     /**
      * Builds a new {@link SimpleGUI}.
@@ -52,7 +53,7 @@ public final class SimpleGUI {
          * Add a panel with a JTextField and a JButton
          */
         final JPanel pane = new JPanel(new BorderLayout());
-        final JTextField text = new JTextField();
+        final JTextArea text = new JTextArea();
         pane.add(text, BorderLayout.CENTER);
         final JButton saveButton = new JButton("Save");
         pane.add(saveButton, BorderLayout.SOUTH);
@@ -82,7 +83,6 @@ public final class SimpleGUI {
     }
 
     public static void main(final String[] s) {
-        final SimpleGUI gui = new SimpleGUI();
-        gui.display();
+        new SimpleGUI().display();
     }
 }
